@@ -151,6 +151,8 @@ class TaskCollectionNode(object):
         if self.parent is None:
             self._parent = parent
         else:
+            if not parent.vwtask.task['id']:
+                return
             raise ValueError("TaskCollectionNode %s cannot have multiple parents" % repr(self))
 
     def __iter__(self):
@@ -181,7 +183,8 @@ class TaskCollectionNode(object):
         return full_list
 
     def __repr__(self):
-        return u"Node for with ID: {0}".format(self.vwtask.task['id'])
+        return u"Node for with ID: {0} {1}".format(self.vwtask.task['id'],
+                                                   self.vwtask.task['name'])
 
     def __lt__(self, other):
         return self.comparator.lt(self, other)
